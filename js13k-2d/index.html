@@ -13,25 +13,27 @@
             padding: 0;
             display: block;
             overflow: hidden;
+            background-color: #000000;
         }
 
-        canvas {
+        #view {
             width: 100vw;
             height: 100vh;
         }
 
-        #sprites {
+        #info {
             position: absolute;
             top: 0px;
             left: 90px;
-            color: #fff;
+            color: rgb(187, 187, 187);
+            font-size: 16px;
         }
     </style>
 </head>
 
 <body>
     <canvas id='view'></canvas>
-    <div id='sprites'></div>
+    <div id='info'></div>
     <script type="text/javascript" src='bundle.js'></script>
 </body>
 

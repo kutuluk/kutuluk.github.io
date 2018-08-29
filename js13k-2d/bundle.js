@@ -1,1 +1,232 @@
-var t=function(t,e){this.c=t,this.p=null,this.n=e,this.d=!1};t.prototype.remove=function(){this.d=!0};var e=function(){this.h=null};e.prototype.add=function(e){var n=new t(e,this.h);return this.h&&(this.h.p=n),this.h=n,n},e.prototype.iterate=function(t){for(var e=this.h;e;)e.d?(e.p?e.p.n=e.n:this.h=e.n,e.n&&(e.n.p=e.p)):t(e.c),e=e.n};var n=new Stats;document.body.appendChild(n.dom);var r=document.getElementById("view"),i=function(t,n){var r,i=t.getContext("webgl",n),a=i.getExtension("ANGLE_instanced_arrays"),o=function(t,e){var n=i.createShader(e);return i.shaderSource(n,t),i.compileShader(n),n},c=function(t,e,n){var r=i.createBuffer();return i.bindBuffer(t,r),i.bufferData(t,e,n),r},u=[],h=function(t){var n=u.find(function(e){return e.z===t});return n||((n=new e).z=t,u.push(n),u.sort(function(t,e){return t.z<e.z?-1:t.z>e.z?1:0}),n)},s=h(0),v=function(t,e){var n=o("precision mediump float;\nattribute vec2 g;\nattribute vec2 a;\nattribute vec2 t;\nattribute float r;\nattribute vec2 s;\nattribute vec4 u;\nattribute vec4 c;\nuniform mat4 m;\nvarying vec2 v;\nvarying vec4 vc;\nvoid main(){\nv=g+u.xy*u.zw;\nvc=c.abgr;\nvec2 p=(g-a)*s;\nfloat cr=cos(r);\nfloat sr=sin(r);\np=vec2(p.x*sr+p.y*cr,p.y*sr-p.x*cr);\np+=a+t;\ngl_Position=m*vec4(p,0,1);}",i.VERTEX_SHADER),r=o("precision mediump float;\nuniform sampler2D x;\nvarying vec2 v;\nvarying vec4 vc;\nvoid main(){gl_FragColor=texture2D(x,v)*vc;}",i.FRAGMENT_SHADER),a=i.createProgram();return i.attachShader(a,n),i.attachShader(a,r),i.linkProgram(a),a}(),E=(c(i.ELEMENT_ARRAY_BUFFER,new Uint16Array([0,1,2,2,1,3]),i.STATIC_DRAW),function(t,e,n,r,o,c,u){var h=i.getAttribLocation(v,t);return i.enableVertexAttribArray(h),i.vertexAttribPointer(h,e,c||i.FLOAT,!!u,n||0,o||0),r&&a.vertexAttribDivisorANGLE(h,r),h}),f=(c(i.ARRAY_BUFFER,new Float32Array([0,0,0,1,1,0,1,1]),i.STATIC_DRAW),E("g",2),new ArrayBuffer(524256)),d=new Float32Array(f),l=new Uint32Array(f),m=(c(i.ARRAY_BUFFER,f,i.DYNAMIC_DRAW),E("a",2,48,1),E("s",2,48,1,8),E("r",1,48,1,16),E("t",2,48,1,20),E("u",4,48,1,28),E("c",4,48,1,44,i.UNSIGNED_BYTE,!0),i.getUniformLocation(v,"m")),p=i.getUniformLocation(v,"x"),R=0,T=function(){R&&(i.bufferSubData(i.ARRAY_BUFFER,0,d.subarray(0,12*R)),a.drawElementsInstancedANGLE(i.TRIANGLES,6,i.UNSIGNED_SHORT,0,R),console.log(R),R=0)},g=function(){var e=t.clientWidth,n=t.clientHeight;t.width=e,t.height=n,i.viewport(0,0,e,n),i.enable(i.BLEND),i.blendFunc(i.SRC_ALPHA,i.ONE_MINUS_SRC_ALPHA),i.clear(i.COLOR_BUFFER_BIT);var a=[2/e,0,0,0,0,-2/n,0,0,0,0,1,0,-1,1,0,1];i.useProgram(v),i.activeTexture(i.TEXTURE0),i.uniformMatrix4fv(m,!1,a),r=null,u.forEach(function(t){return t.iterate(function(t){return function(t){if(t.visible){10922===R&&T();var e=t.bitmap,n=e.tex,a=e.width,o=e.height,c=e.uvs;r!==n&&(T(),r=n,i.bindTexture(i.TEXTURE_2D,n),i.uniform1i(p,n));var u=12*R;d[u++]=t.anchor.x,d[u++]=t.anchor.y,d[u++]=t.scale.x*a,d[u++]=t.scale.y*o,d[u++]=t.rotation+Math.PI/2,d[u++]=t.position.x,d[u++]=t.position.y,d[u++]=c[0],d[u++]=c[1],d[u++]=c[2],d[u++]=c[3],l[u++]=((16777215&t.tint)<<8|255*t.alpha&255)>>>0,R++}}(t)})}),T()},_=function(t){this.bitmap=t,this.anchor={x:.5,y:.5},this.position={x:0,y:0},this.rotation=0,this.scale={x:1,y:1},this.tint=16777215,this.alpha=1,this.visible=!0};return _.prototype.remove=function(){},g(),{gl:i,bkg:function(t,e,n){i.clearColor(t,e,n,1)},texture:function(t,e,n,r,a){var o=i.createTexture();return i.bindTexture(i.TEXTURE_2D,o),i.texParameteri(i.TEXTURE_2D,i.TEXTURE_WRAP_S,e||i.CLAMP_TO_EDGE),i.texParameteri(i.TEXTURE_2D,i.TEXTURE_WRAP_T,n||i.CLAMP_TO_EDGE),i.texParameteri(i.TEXTURE_2D,i.TEXTURE_MAG_FILTER,a||i.LINEAR),i.texParameteri(i.TEXTURE_2D,i.TEXTURE_MIN_FILTER,r||i.LINEAR),i.texImage2D(i.TEXTURE_2D,0,i.RGBA,i.RGBA,i.UNSIGNED_BYTE,t),i.generateMipmap(i.TEXTURE_2D),{tex:o,width:t.width,height:t.height,uvs:[0,0,1,1]}},bitmap:function(t,e,n,r,i){var a=r-e,o=i-n;return{tex:t.tex,width:Math.abs(a),height:Math.abs(o),uvs:[e/t.width,n/t.height,a/t.width,o/t.height]}},layer:h,Sprite:_,add:function(t,e){var n=(e||s).add(t);t.remove=n.remove.bind(n)},render:g}}(r),a=i.gl;console.log(i.gl),i.bkg(.2,.2,.2,1);var o=i.texture(function(){var t=document.createElement("canvas");t.width=32,t.height=32;var e=t.getContext("2d");e.lineWidth=2,e.fillStyle="#888888",e.strokeStyle="#ffffff",e.beginPath(),e.moveTo(16,16);for(var n=Math.PI/5;n<2*Math.PI;n+=2*Math.PI/5)e.lineTo(16+15*Math.cos(n),16+15*Math.sin(n));return e.closePath(),e.fill(),e.stroke(),t}()),c=0,u=function(t){c+=t;for(var e=0;e<t;e++){var n=new i.Sprite(o);n.position={x:.1*r.width+Math.random()*r.width*.8,y:.1*r.height+Math.random()*r.height*.8},n.anchor={x:.5,y:.5},n.tint=16777215*Math.random(),n.alpha=.8,n.scale={x:.5,y:.5},n.rotation=Math.random()*Math.PI*2,n.dr=.2*(.5-Math.random()),i.add(n)}};u(3e3);var h=document.getElementById("sprites"),s=a.getExtension("WEBGL_debug_renderer_info"),v=a.getParameter(s?s.UNMASKED_RENDERER_WEBGL:a.VENDOR),E=!1;r.onmousedown=function(){E=!0},r.ontouchstart=function(){E=!0},r.onmouseup=function(){E=!1},r.ontouchend=function(){E=!1};var f=function(){n.begin(),E&&u(50),h.innerHTML="<pre>Renderer: "+v+"\nSprites: "+c+"</pre>",i.layer(0).iterate(function(t){t.rotation+=t.dr}),i.render(),n.end(),requestAnimationFrame(f)};f();
+var t = function (t, r) {
+    this.c = t, this.p = null, this.n = r, this.d = !1;
+};
+t.prototype.remove = function () {
+    this.d = !0;
+};
+var r = function () {
+    this.h = null;
+};
+r.prototype.add = function (r) {
+    var e = new t(r, this.h);
+    return this.h && (this.h.p = e), this.h = e, e;
+}, r.prototype.iterate = function (t) {
+    var this$1 = this;
+
+    for (var r = this.h;r; ) 
+        { r.d ? (r.p ? (r.p.n = r.n) : (this$1.h = r.n), r.n && (r.n.p = r.p)) : t(r.c), r = r.n; }
+};
+var e = function (t) {
+    this.l = new r(), this.z = t;
+};
+e.prototype.add = function (t) {
+    t.node = this.l.add(t);
+};
+var n = function (t) {
+    this.bitmap = t, this.anchor = {
+        x: .5,
+        y: .5
+    }, this.position = {
+        x: 0,
+        y: 0
+    }, this.rotation = 0, this.scale = {
+        x: 1,
+        y: 1
+    }, this.tint = 16777215, this.alpha = 1, this.visible = !0, this.node = null;
+};
+n.prototype.remove = function () {
+    this.node && this.node.remove();
+};
+var i = function (t, r) {
+    var n = t.getContext("webgl", r), i = n.getExtension("ANGLE_instanced_arrays"), a = function (t, r) {
+        var e = n.createShader(r);
+        return n.shaderSource(e, t), n.compileShader(e), e;
+    }, o = function (t, r, e) {
+        var i = n.createBuffer();
+        return n.bindBuffer(t, i), n.bufferData(t, r, e), i;
+    }, u = [], c = function (t) {
+        var r = u.find(function (r) {
+            return r.z === t;
+        });
+        if (r) 
+            { return r; }
+        var n = new e(t);
+        return u.push(n), u.sort(function (t, r) {
+            return t.z < r.z ? -1 : t.z > r.z ? 1 : 0;
+        }), n;
+    }, h = c(0), v = (function (t, r) {
+        var e = a(t, n.VERTEX_SHADER), i = a(r, n.FRAGMENT_SHADER), o = n.createProgram();
+        return n.attachShader(o, e), n.attachShader(o, i), n.linkProgram(o), o;
+    })("precision mediump float;\nattribute vec2 g;\nattribute vec2 a;\nattribute vec2 t;\nattribute float r;\nattribute vec2 s;\nattribute vec4 u;\nattribute vec4 c;\nuniform mat4 m;\nvarying vec2 v;\nvarying vec4 vc;\nvoid main(){\nv=u.xy+g*u.zw;\nvc=c.abgr;\nvec2 p=(g-a)*s;\nfloat cr=cos(r);\nfloat sr=sin(r);\np=vec2(p.x*cr-p.y*sr,p.x*sr+p.y*cr);\np+=a+t;\ngl_Position=m*vec4(p,0,1);}", "precision mediump float;\nuniform sampler2D x;\nvarying vec2 v;\nvarying vec4 vc;\nvoid main(){\ngl_FragColor=texture2D(x,v)*vc;}"), E = function (t, r, e, a, o, u, c) {
+        var h = n.getAttribLocation(v, t);
+        return n.enableVertexAttribArray(h), n.vertexAttribPointer(h, r, u || n.FLOAT, !(!c), e || 0, o || 0), a && i.vertexAttribDivisorANGLE(h, a), h;
+    };
+    o(n.ELEMENT_ARRAY_BUFFER, new Uint16Array([0,1,2,2,1,3]), n.STATIC_DRAW), o(n.ARRAY_BUFFER, new Float32Array([0,
+        0,0,1,1,0,1,1]), n.STATIC_DRAW), E("g", 2);
+    var s = new ArrayBuffer(3145680), f = new Float32Array(s), T = new Uint32Array(s);
+    o(n.ARRAY_BUFFER, s, n.DYNAMIC_DRAW), E("a", 2, 48, 1), E("s", 2, 48, 1, 8), E("r", 1, 48, 1, 16), E("t", 2, 48, 1, 20), E("u", 4, 48, 1, 28), E("c", 4, 48, 1, 44, n.UNSIGNED_BYTE, !0);
+    var R, A = n.getUniformLocation(v, "m"), d = n.getUniformLocation(v, "x"), l = 0, p = function () {
+        l && (n.bufferSubData(n.ARRAY_BUFFER, 0, f.subarray(0, 12 * l)), i.drawElementsInstancedANGLE(n.TRIANGLES, 6, n.UNSIGNED_SHORT, 0, l), l = 0);
+    }, _ = function () {
+        var r = t.clientWidth, e = t.clientHeight;
+        t.width = r, t.height = e, n.viewport(0, 0, r, e), n.enable(n.BLEND), n.blendFunc(n.SRC_ALPHA, n.ONE_MINUS_SRC_ALPHA), n.clear(n.COLOR_BUFFER_BIT);
+        var i = [2 / r,0,0,0,0,-2 / e,0,0,0,0,1,0,-1,1,0,1];
+        n.useProgram(v), n.activeTexture(n.TEXTURE0), n.uniformMatrix4fv(A, !1, i), R = null, u.forEach(function (t) {
+            return t.l.iterate(function (t) {
+                return (function (t) {
+                    if (t.visible) {
+                        65535 === l && p();
+                        var r = t.bitmap, e = r.tex, i = r.width, a = r.height, o = r.uvs;
+                        R !== e && (p(), R = e, n.bindTexture(n.TEXTURE_2D, e), n.uniform1i(d, e));
+                        var u = 12 * l;
+                        f[u++] = t.anchor.x, f[u++] = t.anchor.y, f[u++] = t.scale.x * i, f[u++] = t.scale.y * a, f[u++] = t.rotation, f[u++] = t.position.x, f[u++] = t.position.y, f[u++] = o[0], f[u++] = o[1], f[u++] = o[2], f[u++] = o[3], T[u++] = ((16777215 & t.tint) << 8 | 255 * t.alpha & 255) >>> 0, l++;
+                    }
+                })(t);
+            });
+        }), p();
+    };
+    return _(), {
+        gl: n,
+        bkg: function (t, r, e) {
+            n.clearColor(t, r, e, 1);
+        },
+        texture: function (t, r, e, i, a) {
+            var o = n.createTexture();
+            return n.bindTexture(n.TEXTURE_2D, o), n.texParameteri(n.TEXTURE_2D, n.TEXTURE_WRAP_S, r || n.CLAMP_TO_EDGE), n.texParameteri(n.TEXTURE_2D, n.TEXTURE_WRAP_T, e || n.CLAMP_TO_EDGE), n.texParameteri(n.TEXTURE_2D, n.TEXTURE_MAG_FILTER, a || n.LINEAR), n.texParameteri(n.TEXTURE_2D, n.TEXTURE_MIN_FILTER, i || n.LINEAR), n.texImage2D(n.TEXTURE_2D, 0, n.RGBA, n.RGBA, n.UNSIGNED_BYTE, t), n.generateMipmap(n.TEXTURE_2D), {
+                tex: o,
+                width: t.width,
+                height: t.height,
+                uvs: [0,0,1,1]
+            };
+        },
+        bitmap: function (t, r, e, n, i) {
+            var a = n - r + 1, o = i - e + 1;
+            return {
+                tex: t.tex,
+                width: a,
+                height: o,
+                uvs: [r / t.width,e / t.height,a / t.width,o / t.height]
+            };
+        },
+        layer: c,
+        add: function (t) {
+            h.add(t);
+        },
+        render: _
+    };
+};
+i.Sprite = n;
+
+var stats = new Stats();
+document.body.appendChild(stats.dom);
+var view = document.getElementById('view');
+var renderer = i(view);
+var gl = renderer.gl;
+renderer.bkg(0.2, 0.2, 0.2, 1);
+var atlasImg = function () {
+    var canvas = document.createElement('canvas');
+    var size = 32;
+    var half = size / 2;
+    canvas.width = 96;
+    canvas.height = 32;
+    var ctx = canvas.getContext('2d');
+    var offset = 0;
+    ctx.lineWidth = size / 16;
+    ctx.fillStyle = '#cccccc';
+    ctx.strokeStyle = '#000000';
+    ctx.beginPath();
+    ctx.moveTo(offset + half, half);
+    for (var angle = 0;angle < Math.PI * 2; angle += Math.PI * 2 / 5) {
+        ctx.lineTo(offset + half - Math.sin(angle) * half * 0.9, half - Math.cos(angle) * half * 0.9);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    offset += size;
+    ctx.beginPath();
+    ctx.moveTo(offset + 3, 3);
+    ctx.lineTo(offset + size - 3, 3);
+    ctx.lineTo(offset + size - 3, size - 3);
+    ctx.lineTo(offset + 3, size - 3);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    offset += size;
+    ctx.beginPath();
+    ctx.moveTo(offset + 3, 3);
+    ctx.lineTo(offset + 29, 3);
+    ctx.lineTo(offset + 29, 8);
+    ctx.lineTo(offset + 8, 8);
+    ctx.lineTo(offset + 8, 14);
+    ctx.lineTo(offset + 20, 14);
+    ctx.lineTo(offset + 20, 18);
+    ctx.lineTo(offset + 8, 18);
+    ctx.lineTo(offset + 8, 29);
+    ctx.lineTo(offset + 3, 29);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    return canvas;
+};
+var atlasTex = renderer.texture(atlasImg());
+var bBitmap = renderer.bitmap(atlasTex, 0, 0, 31, 31);
+var qBitmap = renderer.bitmap(atlasTex, 32, 0, 63, 31);
+var fBitmap = renderer.bitmap(atlasTex, 64, 0, 95, 31);
+var bitmaps = [atlasTex,bBitmap,qBitmap,fBitmap];
+var len = 0;
+var sprs = [];
+var addSprite = function (l, a) {
+    len += a;
+    for (var i$$1 = 0;i$$1 < a; i$$1++) {
+        var s = new i.Sprite(bitmaps[i$$1 % 4]);
+        s.position = {
+            x: view.width * 0.1 + Math.random() * view.width * 0.8,
+            y: view.height * 0.1 + Math.random() * view.height * 0.8
+        };
+        s.scale = {
+            x: 0.5,
+            y: 0.5
+        };
+        s.anchor = {
+            x: 0.5,
+            y: 0.5
+        };
+        s.alpha = 0.7;
+        s.tint = Math.random() * 0xffffff;
+        s.rotation = Math.random() * Math.PI * 2;
+        s.dr = (0.5 - Math.random()) * 0.2;
+        sprs.push(s);
+        l.add(s);
+    }
+};
+addSprite(renderer.layer(0), 300);
+var sprites = document.getElementById('info');
+var dbgRenderInfo = gl.getExtension('WEBGL_debug_renderer_info');
+var info = gl.getParameter(dbgRenderInfo ? dbgRenderInfo.UNMASKED_RENDERER_WEBGL : gl.VENDOR);
+var add = null;
+var l = 1;
+view.onmousedown = (function () {
+    add = renderer.layer(l++);
+});
+view.ontouchstart = (function () {
+    add = renderer.layer(l++);
+});
+view.onmouseup = (function () {
+    add = null;
+});
+view.ontouchend = (function () {
+    add = null;
+});
+var loop = function () {
+    stats.begin();
+    if (add) 
+        { addSprite(add, 25); }
+    sprites.innerHTML = "Renderer: " + info + "</br>Sprites: " + len;
+    sprs.forEach(function (sprite) {
+        sprite.dr && (sprite.rotation += sprite.dr);
+    });
+    renderer.render();
+    stats.end();
+    requestAnimationFrame(loop);
+};
+loop();
