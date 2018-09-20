@@ -1,0 +1,16 @@
+{
+    "name": "js13k-2d-examples",
+    "short_name": "js13k-2d-examples",
+    "start_url": "/js13k-2d/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#fff",
+    "theme_color": "#386ea9",
+    "icons": [
+        {
+            "src": "assets/icons/android-icon-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ]
+}
