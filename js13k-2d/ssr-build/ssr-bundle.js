@@ -496,102 +496,102 @@ const info = gl.getParameter(
 */
 
 var atlasImg = function atlasImg() {
-    var canvas = document.createElement('canvas');
-    var size = 32;
-    var half = size / 2;
-    canvas.width = 96;
-    canvas.height = 32;
-    var ctx = canvas.getContext('2d');
+	var canvas = document.createElement('canvas');
+	var size = 32;
+	var half = size / 2;
+	canvas.width = 96;
+	canvas.height = 32;
+	var ctx = canvas.getContext('2d');
 
-    var offset = 0;
+	var offset = 0;
 
-    ctx.lineWidth = size / 16;
-    ctx.fillStyle = '#cccccc';
-    ctx.strokeStyle = '#000000';
-    ctx.beginPath();
+	ctx.lineWidth = size / 16;
+	ctx.fillStyle = '#cccccc';
+	ctx.strokeStyle = '#000000';
+	ctx.beginPath();
 
-    ctx.moveTo(offset + half, half);
-    for (var angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 5) {
-        ctx.lineTo(offset + half - Math.sin(angle) * half * 0.9, half - Math.cos(angle) * half * 0.9);
-    }
+	ctx.moveTo(offset + half, half);
+	for (var angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 5) {
+		ctx.lineTo(offset + half - Math.sin(angle) * half * 0.9, half - Math.cos(angle) * half * 0.9);
+	}
 
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
 
-    offset += size;
+	offset += size;
 
-    ctx.beginPath();
+	ctx.beginPath();
 
-    ctx.moveTo(offset + 3, 3);
-    ctx.lineTo(offset + size - 3, 3);
-    ctx.lineTo(offset + size - 3, size - 3);
-    ctx.lineTo(offset + 3, size - 3);
+	ctx.moveTo(offset + 3, 3);
+	ctx.lineTo(offset + size - 3, 3);
+	ctx.lineTo(offset + size - 3, size - 3);
+	ctx.lineTo(offset + 3, size - 3);
 
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
 
-    offset += size;
+	offset += size;
 
-    ctx.beginPath();
+	ctx.beginPath();
 
-    ctx.moveTo(offset + 3, 3);
-    ctx.lineTo(offset + 29, 3);
-    ctx.lineTo(offset + 29, 8);
-    ctx.lineTo(offset + 8, 8);
-    ctx.lineTo(offset + 8, 14);
-    ctx.lineTo(offset + 20, 14);
-    ctx.lineTo(offset + 20, 18);
-    ctx.lineTo(offset + 8, 18);
-    ctx.lineTo(offset + 8, 29);
-    ctx.lineTo(offset + 3, 29);
+	ctx.moveTo(offset + 3, 3);
+	ctx.lineTo(offset + 29, 3);
+	ctx.lineTo(offset + 29, 8);
+	ctx.lineTo(offset + 8, 8);
+	ctx.lineTo(offset + 8, 14);
+	ctx.lineTo(offset + 20, 14);
+	ctx.lineTo(offset + 20, 18);
+	ctx.lineTo(offset + 8, 18);
+	ctx.lineTo(offset + 8, 29);
+	ctx.lineTo(offset + 3, 29);
 
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
 
-    return canvas;
+	return canvas;
 };
 
 var _ref = (0, _preact.h)('canvas', { id: 'view' });
 
 var Home = function (_Component) {
-    _inherits(Home, _Component);
+	_inherits(Home, _Component);
 
-    function Home() {
-        var _temp, _this, _ret;
+	function Home() {
+		var _temp, _this, _ret;
 
-        _classCallCheck(this, Home);
+		_classCallCheck(this, Home);
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onmousedown = function (event) {
-            _this.add = true;
-            event.preventDefault();
-        }, _this.ontouchstart = function (event) {
-            _this.add = true;
-            event.preventDefault();
-        }, _this.onmouseup = function (event) {
-            _this.add = false;
-            event.preventDefault();
-        }, _this.ontouchend = function (event) {
-            _this.add = false;
-            event.preventDefault();
-        }, _temp), _possibleConstructorReturn(_this, _ret);
-    }
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onmousedown = function (event) {
+			_this.add = true;
+			event.preventDefault();
+		}, _this.ontouchstart = function (event) {
+			_this.add = true;
+			event.preventDefault();
+		}, _this.onmouseup = function (event) {
+			_this.add = false;
+			event.preventDefault();
+		}, _this.ontouchend = function (event) {
+			_this.add = false;
+			event.preventDefault();
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
 
-    Home.prototype.componentDidMount = function componentDidMount() {
-        var _Texture,
-            _this2 = this;
+	Home.prototype.componentDidMount = function componentDidMount() {
+		var _Texture,
+		    _this2 = this;
 
-        var view = document.getElementById('view');
+		var view = document.getElementById('view');
 
-        this.add = false;
+		this.add = false;
 
-        /*
+		/*
         let add = false;
         view.onmousedown = event => {
             event.preventDefault();
@@ -611,42 +611,45 @@ var Home = function (_Component) {
         };
         */
 
-        var scene = (0, _js13k2d2.default)(view);
-        var gl = scene.gl;
+		var scale = window.devicePixelRatio === 1 ? 1 : 2;
+		var scene = (0, _js13k2d2.default)(view, { scale: scale });
+		// const scene = Renderer(view, { scale: window.devicePixelRatio });
+		// const scene = Renderer(view);
+		var gl = scene.gl;
 
 
-        var maskSize = Math.min(scene.gl.canvas.width, scene.gl.canvas.height);
+		var maskSize = Math.min(scene.gl.canvas.width, scene.gl.canvas.height);
 
-        scene.background(1, 1, 1, 0);
-        scene.camera.at.set(maskSize / 2, maskSize / 2);
-        scene.camera.to.set(0.5);
+		scene.background(1, 1, 1, 0);
+		scene.camera.at.set(maskSize / 2, maskSize / 2);
+		scene.camera.to.set(0.5);
 
-        var logoMask = function logoMask() {
-            var canvas = document.createElement('canvas');
-            canvas.width = maskSize;
-            canvas.height = maskSize;
-            var ctx = canvas.getContext('2d');
+		var logoMask = function logoMask() {
+			var canvas = document.createElement('canvas');
+			canvas.width = maskSize;
+			canvas.height = maskSize;
+			var ctx = canvas.getContext('2d');
 
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
+			ctx.fillStyle = '#ffffff';
+			ctx.beginPath();
 
-            ctx.moveTo(maskSize / 2, maskSize / 2);
-            for (var angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 5) {
-                ctx.lineTo(maskSize / 2 - Math.sin(angle) * maskSize / 2.5, maskSize / 2 - Math.cos(angle) * maskSize / 2.5);
-            }
+			ctx.moveTo(maskSize / 2, maskSize / 2);
+			for (var angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 5) {
+				ctx.lineTo(maskSize / 2 - Math.sin(angle) * maskSize / 2.5, maskSize / 2 - Math.cos(angle) * maskSize / 2.5);
+			}
 
-            ctx.closePath();
-            ctx.fill();
+			ctx.closePath();
+			ctx.fill();
 
-            var _ctx$getImageData = ctx.getImageData(0, 0, maskSize, maskSize),
-                data = _ctx$getImageData.data;
+			var _ctx$getImageData = ctx.getImageData(0, 0, maskSize, maskSize),
+			    data = _ctx$getImageData.data;
 
-            return function (x, y) {
-                return data[(y * maskSize + x) * 4] > 0;
-            };
-        };
+			return function (x, y) {
+				return data[(y * maskSize + x) * 4] > 0;
+			};
+		};
 
-        /*
+		/*
         const logo = () => {
             const canvas = document.createElement('canvas');
             canvas.width = 64;
@@ -677,101 +680,101 @@ var Home = function (_Component) {
          logo();
         */
 
-        var atlas = Texture(scene, atlasImg(), 0.5, (_Texture = {}, _Texture[gl.TEXTURE_MAG_FILTER] = gl.LINEAR, _Texture[gl.TEXTURE_MIN_FILTER] = gl.LINEAR, _Texture));
-        atlas.anchor = Point(0.5);
+		var atlas = Texture(scene, atlasImg(), 0.5, (_Texture = {}, _Texture[gl.TEXTURE_MAG_FILTER] = gl.LINEAR, _Texture[gl.TEXTURE_MIN_FILTER] = gl.LINEAR, _Texture));
+		atlas.anchor = Point(0.5);
 
-        var bFrame = Frame(atlas, Point(), Point(32));
-        var qFrame = Frame(atlas, Point(32, 0), Point(32));
-        var fFrame = Frame(atlas, Point(64, 0), Point(32));
-        var frames = [atlas, bFrame, qFrame, fFrame];
+		var bFrame = Frame(atlas, Point(), Point(32));
+		var qFrame = Frame(atlas, Point(32, 0), Point(32));
+		var fFrame = Frame(atlas, Point(64, 0), Point(32));
+		var frames = [atlas, bFrame, qFrame, fFrame];
+		// const frames = [bFrame];
 
-        var mask = logoMask();
-        var sprs = [];
+		var mask = logoMask();
+		var sprs = [];
 
-        var len = 0;
-        var cl = 0;
+		var len = 0;
+		var cl = 0;
 
-        var addSprite = function addSprite(a) {
-            if (len % 250 === 0) {
-                cl++;
-            }
-            len += a;
+		var addSprite = function addSprite(a) {
+			if (len % 250 === 0) {
+				cl++;
+			}
+			len += a;
 
-            var layer = scene.layer(cl);
+			var layer = scene.layer(cl);
 
-            for (var i = 0; i < a; i++) {
-                var sprite = Sprite(frames[i % 4]);
+			for (var i = 0; i < a; i++) {
+				var sprite = Sprite(frames[i % 4]);
+				//const sprite = Sprite(frames[i % 1]);
 
-                var x = 0;
-                var y = 0;
+				var x = 0;
+				var y = 0;
 
-                while (!mask(x, y)) {
-                    x = ~~(maskSize * Math.random());
-                    y = ~~(maskSize * Math.random());
-                }
+				while (!mask(x, y)) {
+					x = ~~(maskSize * Math.random());
+					y = ~~(maskSize * Math.random());
+				}
 
-                sprite.position.set(x, y);
-                sprite.scale.set(maskSize / 1200);
-                sprite.tint = Math.random() * 0xffffff;
-                sprite.rotation = Math.random() * Math.PI * 2;
-                sprite.dr = (0.5 - Math.random()) * 0.1;
-                sprite.trans = !Math.round(Math.random());
-                // sprite.trans = false;
-                sprs.push(sprite);
-                layer.add(sprite);
-            }
-        };
+				sprite.position.set(x, y);
+				sprite.scale.set(maskSize / 1200);
+				sprite.tint = Math.random() * 0xffffff;
+				sprite.rotation = Math.random() * Math.PI * 2;
+				sprite.dr = (0.5 - Math.random()) * 0.1;
+				sprite.trans = !Math.round(Math.random() + 0.3);
+				// sprite.trans = false;
+				sprs.push(sprite);
+				layer.add(sprite);
+			}
+		};
 
-        var loop = function loop() {
-            if (len < 3000 || _this2.add) addSprite(25);
+		var loop = function loop() {
+			if (len < 3000 || _this2.add) addSprite(25);
 
-            // sprites.innerHTML = `Renderer: ${info}</br>Sprites: ${len} (click to add)`;
+			sprs.forEach(function (sprite) {
+				sprite.rotation += sprite.dr;
+				if (sprite.trans) {
+					if (sprite.alpha > 0.6) {
+						sprite.alpha -= 0.001;
+					} else {
+						sprite.trans = false;
+					}
+				}
+			});
 
-            sprs.forEach(function (sprite) {
-                sprite.dr && (sprite.rotation += sprite.dr);
-                if (sprite.trans) {
-                    if (sprite.alpha > 0.8) {
-                        sprite.alpha -= 0.001;
-                    } else {
-                        sprite.trans = false;
-                    }
-                }
-            });
+			scene.camera.angle += 0.005;
 
-            scene.camera.angle += 0.005;
+			scene.render();
 
-            scene.render();
+			return [{
+				title: 'sprites',
+				value: len < 10000 ? len : Number((len / 1000).toFixed(1)) + 'k'
+			}];
+		};
 
-            return [{
-                title: 'sprites',
-                value: len < 10000 ? len : Number((len / 1000).toFixed(1)) + 'k'
-            }];
-        };
+		this.props.start(loop);
+	};
 
-        this.props.start(loop);
-    };
-
-    /*
+	/*
                 <h1>Home</h1>
                 <p>This is the Home component.</p>
     */
 
-    Home.prototype.render = function render() {
-        return (0, _preact.h)(
-            'div',
-            {
-                'class': _style2.default.home,
-                onMouseDown: this.onmousedown,
-                onTouchStart: this.ontouchstart,
-                onMouseUp: this.onmouseup,
-                onTouchEnd: this.ontouchend
-            },
-            'Click or touch to add sprites',
-            _ref
-        );
-    };
+	Home.prototype.render = function render() {
+		return (0, _preact.h)(
+			'div',
+			{
+				'class': _style2.default.home,
+				onMouseDown: this.onmousedown,
+				onTouchStart: this.ontouchstart,
+				onMouseUp: this.onmouseup,
+				onTouchEnd: this.ontouchend
+			},
+			'Click or touch to add sprites',
+			_ref
+		);
+	};
 
-    return Home;
+	return Home;
 }(_preact.Component);
 
 exports.default = Home;
@@ -788,17 +791,17 @@ exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var t = function t(_t, n) {
-  this.c = _t, this.p = null, this.n = n, this.d = 0;
+var t = function t(_t, n, e) {
+  this.l = _t, this.c = n, this.n = e, this.p = null;
 };t.prototype.r = function () {
-  this.d = 1;
+  this.p ? this.p.n = this.n : this.l.h = this.n, this.n && (this.n.p = this.p);
 };var n = function n() {
   this.h = null;
 };n.prototype.add = function (n) {
-  var e = new t(n, this.h);return this.h && (this.h.p = e), this.h = e, e;
+  var e = new t(this, n, this.h);return this.h && (this.h.p = e), this.h = e, e;
 }, n.prototype.i = function (t) {
   for (var n = this.h; n;) {
-    n.d ? (n.p ? n.p.n = n.n : this.h = n.n, n.n && (n.n.p = n.p)) : t(n.c), n = n.n;
+    t(n.c), n = n.n;
   }
 };var e = function e(t) {
   this.z = t, this.o = new n(), this.t = new n();
@@ -807,77 +810,76 @@ var t = function t(_t, n) {
     return 1 !== t.alpha || 0 === t.frame.atest;
   }(t) ? this.t : this.o).add(t);
 };var i = function i(t, n) {
-  var r = _extends({ antialias: !1, alpha: !1 }, n),
+  var r = _extends({ antialias: !1, alpha: !1, scale: 1 }, n),
       a = r.alpha ? 1 : 770,
-      o = t.getContext("webgl", r),
-      s = o.getExtension("ANGLE_instanced_arrays"),
+      o = r.scale,
+      s = t.getContext("webgl", r),
+      c = s.getExtension("ANGLE_instanced_arrays"),
       u = function u(t, n) {
-    var e = o.createShader(n);return o.shaderSource(e, t), o.compileShader(e), e;
+    var e = s.createShader(n);return s.shaderSource(e, t), s.compileShader(e), e;
   },
-      c = o.createProgram();o.attachShader(c, u("attribute vec2 g;\nattribute vec2 a;\nattribute vec2 t;\nattribute float r;\nattribute vec2 s;\nattribute vec4 u;\nattribute vec4 c;\nattribute float z;\nuniform mat4 m;\nvarying vec2 v;\nvarying vec4 i;\nvoid main(){\nv=u.xy+g*u.zw;\ni=c.abgr;\nvec2 p=(g-a)*s;\nfloat q=cos(r);\nfloat w=sin(r);\np=vec2(p.x*q-p.y*w,p.x*w+p.y*q);\np+=a+t;\ngl_Position=m*vec4(p,z,1);}", 35633)), o.attachShader(c, u("precision mediump float;\nuniform sampler2D x;\nuniform float j;\nvarying vec2 v;\nvarying vec4 i;\nvoid main(){\nvec4 c=texture2D(x,v);\ngl_FragColor=c*i;\nif(j>0.0){\nif(c.a<j)discard;\ngl_FragColor.a=1.0;};}", 35632)), o.linkProgram(c);var h = function h(t, n, e) {
-    var i = o.createBuffer();return o.bindBuffer(t, i), o.bufferData(t, n, e || 35044), i;
+      h = s.createProgram();s.attachShader(h, u("attribute vec2 g;\nattribute vec2 a;\nattribute vec2 t;\nattribute float r;\nattribute vec2 s;\nattribute vec4 u;\nattribute vec4 c;\nattribute float z;\nuniform mat4 m;\nvarying vec2 v;\nvarying vec4 i;\nvoid main(){\nv=u.xy+g*u.zw;\ni=c.abgr;\nvec2 p=(g-a)*s;\nfloat q=cos(r);\nfloat w=sin(r);\np=vec2(p.x*q-p.y*w,p.x*w+p.y*q);\np+=a+t;\ngl_Position=m*vec4(p,z,1);}", 35633)), s.attachShader(h, u("precision mediump float;\nuniform sampler2D x;\nuniform float j;\nvarying vec2 v;\nvarying vec4 i;\nvoid main(){\nvec4 c=texture2D(x,v);\ngl_FragColor=c*i;\nif(j>0.0){\nif(c.a<j)discard;\ngl_FragColor.a=1.0;};}", 35632)), s.linkProgram(h);var f = function f(t, n, e) {
+    var i = s.createBuffer();s.bindBuffer(t, i), s.bufferData(t, n, e || 35044);
   },
-      f = function f(t, n, e, i, r, a, u) {
-    var h = o.getAttribLocation(c, t);return o.enableVertexAttribArray(h), o.vertexAttribPointer(h, n, a || 5126, !!u, e || 0, r || 0), i && s.vertexAttribDivisorANGLE(h, i), h;
-  };h(34963, new Uint8Array([0, 1, 2, 2, 1, 3])), h(34962, new Float32Array([0, 0, 0, 1, 1, 0, 1, 1])), f("g", 2);var l = new ArrayBuffer(3407820),
-      v = new Float32Array(l),
-      p = new Uint32Array(l);h(34962, l, 35048), f("a", 2, 52, 1), f("s", 2, 52, 1, 8), f("r", 1, 52, 1, 16), f("t", 2, 52, 1, 20), f("u", 4, 52, 1, 28), f("c", 4, 52, 1, 44, 5121, !0), f("z", 1, 52, 1, 48);var y,
+      l = function l(t, n, e, i, r, a, o) {
+    var u = s.getAttribLocation(h, t);s.enableVertexAttribArray(u), s.vertexAttribPointer(u, n, a || 5126, !!o, e || 0, r || 0), i && c.vertexAttribDivisorANGLE(u, i);
+  };f(34963, new Uint8Array([0, 1, 2, 2, 1, 3])), f(34962, new Float32Array([0, 0, 0, 1, 1, 0, 1, 1])), l("g", 2);var v = new ArrayBuffer(3407820),
+      p = new Float32Array(v),
+      x = new Uint32Array(v);f(34962, v, 35048), l("a", 2, 52, 1), l("s", 2, 52, 1, 8), l("r", 1, 52, 1, 16), l("t", 2, 52, 1, 20), l("u", 4, 52, 1, 28), l("c", 4, 52, 1, 44, 5121, !0), l("z", 1, 52, 1, 48);var y,
       d,
-      x = function x(t) {
-    return o.getUniformLocation(c, t);
+      g,
+      b,
+      m,
+      w,
+      P = function P(t) {
+    return s.getUniformLocation(h, t);
   },
-      g = x("m"),
-      b = x("x"),
-      m = x("j"),
-      w = 0,
-      P = function P() {
-    w && (o.bufferSubData(34962, 0, v.subarray(0, 13 * w)), s.drawElementsInstancedANGLE(4, 6, 5121, 0, w), w = 0);
+      z = P("m"),
+      A = P("x"),
+      j = P("j"),
+      E = 0,
+      F = function F() {
+    E && (w && (s.useProgram(h), s.uniformMatrix4fv(z, !1, y), s.viewport(0, 0, d, g), s.clear(16640), s.activeTexture(33984), s.enable(3042), s.enable(2929), w = !1), s.blendFunc(m ? 1 : a, m ? 0 : 771), s.depthFunc(m ? 513 : 515), s.bindTexture(3553, b.tex), s.uniform1i(A, b.tex), s.uniform1f(j, m ? b.atest : 0), s.bufferSubData(34962, 0, p.subarray(0, 13 * E)), c.drawElementsInstancedANGLE(4, 6, 5121, 0, E), E = 0);
   },
-      z = function z(t) {
+      S = function S(t) {
     if (t.visible) {
-      65535 === w && P();var n = t.frame,
-          e = t.scale,
-          i = t.position,
-          r = n.tex,
-          a = n.size,
-          s = n.uvs,
-          u = t.anchor || n.anchor;y !== r && (P(), y = r, o.bindTexture(3553, r), o.uniform1i(b, r), o.uniform1f(m, d ? n.atest : 0));var c = 13 * w;v[c++] = u.x, v[c++] = u.y, v[c++] = e.x * a.x, v[c++] = e.y * a.y, v[c++] = t.rotation, v[c++] = i.x, v[c++] = i.y, v[c++] = s[0], v[c++] = s[1], v[c++] = s[2], v[c++] = s[3], p[c++] = ((16777215 & t.tint) << 8 | 255 * t.alpha & 255) >>> 0, v[c++] = t.layer.z, w++;
+      65535 === E && F();var n = t.frame,
+          e = n.uvs,
+          i = t.anchor || n.anchor;b.tex !== n.tex && (b.tex && F(), b = n);var r = 13 * E;p[r++] = i.x, p[r++] = i.y, p[r++] = t.scale.x * n.size.x, p[r++] = t.scale.y * n.size.y, p[r++] = t.rotation, p[r++] = t.position.x, p[r++] = t.position.y, p[r++] = e[0], p[r++] = e[1], p[r++] = e[2], p[r++] = e[3], x[r++] = ((16777215 & t.tint) << 8 | 255 * t.alpha & 255) >>> 0, p[r++] = t.layer.z, E++;
     }
   },
-      A = new e(0),
-      j = [A],
-      F = { gl: o, camera: { at: i.Point(), to: i.Point(), angle: 0 }, background: function background(t, n, e, i) {
-      void 0 === i && (i = 1), o.clearColor(t, n, e, i);
+      D = new e(0),
+      O = [D],
+      L = { gl: s, camera: { at: i.Point(), to: i.Point(), angle: 0 }, background: function background(t, n, e, i) {
+      void 0 === i && (i = 1), s.clearColor(t, n, e, i);
     }, layer: function layer(t) {
-      var n = j.find(function (n) {
+      var n = O.find(function (n) {
         return n.z === t;
-      });return n || (n = new e(t), j.push(n), j.sort(function (t, n) {
+      });return n || (n = new e(t), O.push(n), O.sort(function (t, n) {
         return n.z - t.z;
       })), n;
     }, add: function add(t) {
-      A.add(t);
+      D.add(t);
     }, render: function render() {
-      var n = t.clientWidth,
-          e = t.clientHeight;t.width = n, t.height = e;var i = F.camera,
-          r = i.at,
-          s = i.to,
-          u = i.angle,
-          h = r.x - n * s.x,
-          f = r.y - e * s.y,
-          l = Math.cos(u),
-          v = Math.sin(u),
-          p = 2 / n,
-          x = -2 / e,
-          b = [l * p, v * x, 0, 0, -v * p, l * x, 0, 0, 0, 0, -1e-5, 0, (r.x * (1 - l) + r.y * v) * p - 2 * h / n - 1, (r.y * (1 - l) - r.x * v) * x + 2 * f / e + 1, 0, 1];o.useProgram(c), o.uniformMatrix4fv(g, !1, b), o.viewport(0, 0, n, e), o.clear(16640), o.activeTexture(33984), y = null, o.disable(3042), o.enable(2929), o.depthFunc(513), d = !0, j.forEach(function (t) {
+      g = t.clientHeight * o, t.width = d = t.clientWidth * o, t.height = g;var n = L.camera,
+          e = n.at,
+          i = n.to,
+          r = n.angle,
+          a = e.x - d * i.x,
+          s = e.y - g * i.y,
+          c = Math.cos(r),
+          u = Math.sin(r),
+          h = 2 / d,
+          f = -2 / g;y = [c * h, u * f, 0, 0, -u * h, c * f, 0, 0, 0, 0, -1e-5, 0, (e.x * (1 - c) + e.y * u) * h - 2 * a / d - 1, (e.y * (1 - c) - e.x * u) * f + 2 * s / g + 1, 0, 1], w = !0, b = { tex: null }, m = !0, O.forEach(function (t) {
         return t.o.i(function (t) {
-          return z(t);
+          return S(t);
         });
-      }), P(), o.enable(3042), o.blendFunc(a, 771), o.depthFunc(515), o.uniform1f(m, 0), d = !1;for (var w = j.length - 1; w >= 0; w--) {
-        j[w].t.i(function (t) {
-          return z(t);
+      }), F(), m = !1;for (var l = O.length - 1; l >= 0; l--) {
+        O[l].t.i(function (t) {
+          return S(t);
         });
-      }P();
-    } };return F.render(), F;
+      }F();
+    } };return L.render(), L;
 };i.Point = function () {
   function t(t, n) {
     if (!(this instanceof i.Point)) return new i.Point(t, n);this.set(t, n);
@@ -1136,133 +1138,11 @@ exports.default = _app2.default;
 
 /***/ }),
 
-/***/ "Tv6c":
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-module.exports = {"profile":"profile__1f25-"};
-
-/***/ }),
-
 /***/ "ZAL5":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 module.exports = {"home":"home__2Q5nZ"};
-
-/***/ }),
-
-/***/ "gNuw":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-exports.default = undefined;
-
-var _preact = __webpack_require__("KM04");
-
-var _style = __webpack_require__("Tv6c");
-
-var _style2 = _interopRequireDefault(_style);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Profile = function (_Component) {
-	_inherits(Profile, _Component);
-
-	function Profile() {
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, Profile);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
-			time: Date.now(),
-			count: 10
-		}, _this.updateTime = function () {
-			_this.setState({ time: Date.now() });
-		}, _this.increment = function () {
-			_this.setState({ count: _this.state.count + 1 });
-		}, _temp), _possibleConstructorReturn(_this, _ret);
-	}
-
-	// update the current time
-
-
-	// gets called when this route is navigated to
-	Profile.prototype.componentDidMount = function componentDidMount() {
-		// start a timer for the clock:
-		this.timer = setInterval(this.updateTime, 1000);
-	};
-
-	// gets called just before navigating away from the route
-
-
-	Profile.prototype.componentWillUnmount = function componentWillUnmount() {
-		clearInterval(this.timer);
-	};
-
-	// Note: `user` comes from the URL, courtesy of our router
-
-
-	Profile.prototype.render = function render(_ref, _ref2) {
-		var user = _ref.user;
-		var time = _ref2.time,
-		    count = _ref2.count;
-
-		return (0, _preact.h)(
-			'div',
-			{ 'class': _style2.default.profile },
-			(0, _preact.h)(
-				'h1',
-				null,
-				'Profile: ',
-				user
-			),
-			(0, _preact.h)(
-				'p',
-				null,
-				'This is the user profile for a user named ',
-				user,
-				'.'
-			),
-			(0, _preact.h)(
-				'div',
-				null,
-				'Current time: ',
-				new Date(time).toLocaleString()
-			),
-			(0, _preact.h)(
-				'p',
-				null,
-				(0, _preact.h)(
-					'button',
-					{ onClick: this.increment },
-					'Click Me'
-				),
-				' ',
-				'Clicked ',
-				count,
-				' times.'
-			)
-		);
-	};
-
-	return Profile;
-}(_preact.Component);
-
-exports.default = Profile;
 
 /***/ }),
 
@@ -1287,19 +1167,13 @@ var _home = __webpack_require__("E1C8");
 
 var _home2 = _interopRequireDefault(_home);
 
-var _profile = __webpack_require__("gNuw");
-
-var _profile2 = _interopRequireDefault(_profile);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// Code-splitting is automated for routes
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global PUBLIC_PATH */
 
 
 var Stats = function Stats(_ref) {
@@ -1328,7 +1202,7 @@ var Footer = function Footer(_ref2) {
 		{ 'class': 'footer' },
 		(0, _preact.h)(Stats, { title: 'fps', value: Math.round(fps) }),
 		(0, _preact.h)(Stats, { title: 'ms', value: ms.toFixed(1) }),
-		stats.map(function (_ref3) {
+		(stats || []).map(function (_ref3) {
 			var title = _ref3.title,
 			    value = _ref3.value;
 			return (0, _preact.h)(Stats, { title: title, value: value });
@@ -1336,9 +1210,13 @@ var Footer = function Footer(_ref2) {
 	);
 };
 
+var getTime = function getTime() {
+	return (performance || Date).now();
+};
+
 // <Stat title="ms" value={`${ms.toFixed(1)} (${(ms * 6) | 0}%)`} />
 
-var _ref5 = (0, _preact.h)(_header2.default, null);
+var _ref4 = (0, _preact.h)(_header2.default, null);
 
 var App = function (_Component) {
 	_inherits(App, _Component);
@@ -1356,31 +1234,15 @@ var App = function (_Component) {
 			loop: null,
 			fps: 0,
 			ms: 0,
-			stats: []
+			stats: null
 		}, _this.handleRoute = function (e) {
 			_this.currentUrl = e.url;
 			_this.setState({
 				loop: null,
 				fps: 0,
 				ms: 0,
-				stats: []
+				stats: null
 			});
-		}, _this.begin = function () {
-			_this.beginTime = (performance || Date).now();
-		}, _this.end = function () {
-			_this.frames++;
-
-			var now = (performance || Date).now();
-
-			if (now >= _this.prevTime + 1000) {
-				var ms = now - _this.beginTime;
-
-				_this.setState({ ms: ms });
-				var fps = _this.frames * 1000 / (now - _this.prevTime);
-				_this.prevTime = now;
-				_this.frames = 0;
-				_this.setState({ fps: fps });
-			}
 		}, _this.start = function (loop) {
 			_this.setState({ loop: loop });
 			_this.loop();
@@ -1395,31 +1257,63 @@ var App = function (_Component) {
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
+	App.prototype.begin = function begin() {
+		this.beginTime = getTime();
+	};
+
+	App.prototype.end = function end() {
+		this.frames++;
+
+		var now = getTime();
+		var passed = now - this.prevTime;
+
+		if (passed >= 1000) {
+			var ms = now - this.beginTime;
+			var fps = this.frames * 1000 / passed;
+			this.setState({ fps: fps, ms: ms });
+
+			this.prevTime = now;
+			this.frames = 0;
+		}
+
+		/*
+  if (now - this.prevTime >= 1000) {
+  	const ms = now - this.beginTime;
+  	const fps = (this.frames * 1000) / (now - this.prevTime);
+  	this.setState({ fps, ms });
+  		this.prevTime = now;
+  	this.frames = 0;
+  }
+  */
+	};
+
 	App.prototype.componentDidMount = function componentDidMount() {
-		this.beginTime = (performance || Date).now();
+		this.beginTime = getTime();
 		this.prevTime = this.beginTime;
 		this.frames = 0;
 	};
 
 	/*
+ 				<Home path={PUBLIC_PATH} start={this.start} />
      				<Profile path="/profile/" user="me" />
     				<Profile path="/profile/:user" />
  */
 
-	App.prototype.render = function render(props, _ref4) {
-		var fps = _ref4.fps,
-		    ms = _ref4.ms,
-		    stats = _ref4.stats,
-		    loop = _ref4.loop;
+	App.prototype.render = function render() {
+		var _state = this.state,
+		    fps = _state.fps,
+		    ms = _state.ms,
+		    stats = _state.stats,
+		    loop = _state.loop;
 
 		return (0, _preact.h)(
 			'div',
 			{ id: 'app' },
-			_ref5,
+			_ref4,
 			(0, _preact.h)(
 				_preactRouter.Router,
 				{ onChange: this.handleRoute },
-				(0, _preact.h)(_home2.default, { path: '/js13k-2d', start: this.start })
+				(0, _preact.h)(_home2.default, { path: "/js13k-2d/", start: this.start })
 			),
 			loop && (0, _preact.h)(Footer, { fps: fps, ms: ms, stats: stats })
 		);
