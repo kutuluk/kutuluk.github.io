@@ -613,8 +613,6 @@ var Home = function (_Component) {
 
 		var scale = window.devicePixelRatio === 1 ? 1 : 2;
 		var scene = (0, _js13k2d2.default)(view, { scale: scale });
-		// const scene = Renderer(view, { scale: window.devicePixelRatio });
-		// const scene = Renderer(view);
 		var gl = scene.gl;
 
 
@@ -687,7 +685,6 @@ var Home = function (_Component) {
 		var qFrame = Frame(atlas, Point(32, 0), Point(32));
 		var fFrame = Frame(atlas, Point(64, 0), Point(32));
 		var frames = [atlas, bFrame, qFrame, fFrame];
-		// const frames = [bFrame];
 
 		var mask = logoMask();
 		var sprs = [];
@@ -704,8 +701,7 @@ var Home = function (_Component) {
 			var layer = scene.layer(cl);
 
 			for (var i = 0; i < a; i++) {
-				var sprite = Sprite(frames[i % 4]);
-				//const sprite = Sprite(frames[i % 1]);
+				var sprite = Sprite(frames[i % frames.length]);
 
 				var x = 0;
 				var y = 0;
@@ -716,32 +712,35 @@ var Home = function (_Component) {
 				}
 
 				sprite.position.set(x, y);
-				sprite.scale.set(maskSize / 1200);
 				sprite.tint = Math.random() * 0xffffff;
 				sprite.rotation = Math.random() * Math.PI * 2;
 				sprite.dr = (0.5 - Math.random()) * 0.1;
 				sprite.trans = !Math.round(Math.random() + 0.3);
-				// sprite.trans = false;
 				sprs.push(sprite);
 				layer.add(sprite);
 			}
 		};
 
-		var loop = function loop() {
+		var s = 0;
+		var loop = function loop(delta) {
 			if (len < 3000 || _this2.add) addSprite(25);
 
+			s += 0.005;
+			var scale = (Math.abs(Math.cos(s)) + 0.1) * maskSize / 1300;
+
 			sprs.forEach(function (sprite) {
+				sprite.scale.set(scale);
 				sprite.rotation += sprite.dr;
 				if (sprite.trans) {
 					if (sprite.alpha > 0.6) {
-						sprite.alpha -= 0.001;
+						sprite.alpha -= delta / 10000;
 					} else {
 						sprite.trans = false;
 					}
 				}
 			});
 
-			scene.camera.angle += 0.005;
+			scene.camera.angle += delta / 3000;
 
 			scene.render();
 
@@ -825,27 +824,29 @@ var t = function t(_t, n, e) {
     var u = s.getAttribLocation(h, t);s.enableVertexAttribArray(u), s.vertexAttribPointer(u, n, a || 5126, !!o, e || 0, r || 0), i && c.vertexAttribDivisorANGLE(u, i);
   };f(34963, new Uint8Array([0, 1, 2, 2, 1, 3])), f(34962, new Float32Array([0, 0, 0, 1, 1, 0, 1, 1])), l("g", 2);var v = new ArrayBuffer(3407820),
       p = new Float32Array(v),
-      x = new Uint32Array(v);f(34962, v, 35048), l("a", 2, 52, 1), l("s", 2, 52, 1, 8), l("r", 1, 52, 1, 16), l("t", 2, 52, 1, 20), l("u", 4, 52, 1, 28), l("c", 4, 52, 1, 44, 5121, !0), l("z", 1, 52, 1, 48);var y,
-      d,
+      y = new Uint32Array(v);f(34962, v, 35048), l("a", 2, 52, 1), l("s", 2, 52, 1, 8), l("r", 1, 52, 1, 16), l("t", 2, 52, 1, 20), l("u", 4, 52, 1, 28), l("c", 4, 52, 1, 44, 5121, !0), l("z", 1, 52, 1, 48);var x,
       g,
+      d,
       b,
       m,
-      w,
-      P = function P(t) {
+      w = function w(t) {
     return s.getUniformLocation(h, t);
   },
-      z = P("m"),
-      A = P("x"),
-      j = P("j"),
-      E = 0,
+      P = w("m"),
+      z = w("x"),
+      A = w("j"),
+      j = 0,
+      E = function E() {
+    return d = t.clientHeight * o | 0, (t.width !== (g = t.clientWidth * o | 0) || t.height !== d) && (t.width = g, t.height = d, !0);
+  },
       F = function F() {
-    E && (w && (s.useProgram(h), s.uniformMatrix4fv(z, !1, y), s.viewport(0, 0, d, g), s.clear(16640), s.activeTexture(33984), s.enable(3042), s.enable(2929), w = !1), s.blendFunc(m ? 1 : a, m ? 0 : 771), s.depthFunc(m ? 513 : 515), s.bindTexture(3553, b.tex), s.uniform1i(A, b.tex), s.uniform1f(j, m ? b.atest : 0), s.bufferSubData(34962, 0, p.subarray(0, 13 * E)), c.drawElementsInstancedANGLE(4, 6, 5121, 0, E), E = 0);
+    j && (s.blendFunc(m ? 1 : a, m ? 0 : 771), s.depthFunc(m ? 513 : 515), s.bindTexture(3553, b.tex), s.uniform1i(z, b.tex), s.uniform1f(A, m ? b.atest : 0), s.bufferSubData(34962, 0, p.subarray(0, 13 * j)), c.drawElementsInstancedANGLE(4, 6, 5121, 0, j), j = 0);
   },
       S = function S(t) {
     if (t.visible) {
-      65535 === E && F();var n = t.frame,
+      65535 === j && F();var n = t.frame,
           e = n.uvs,
-          i = t.anchor || n.anchor;b.tex !== n.tex && (b.tex && F(), b = n);var r = 13 * E;p[r++] = i.x, p[r++] = i.y, p[r++] = t.scale.x * n.size.x, p[r++] = t.scale.y * n.size.y, p[r++] = t.rotation, p[r++] = t.position.x, p[r++] = t.position.y, p[r++] = e[0], p[r++] = e[1], p[r++] = e[2], p[r++] = e[3], x[r++] = ((16777215 & t.tint) << 8 | 255 * t.alpha & 255) >>> 0, p[r++] = t.layer.z, E++;
+          i = t.anchor || n.anchor;b.tex !== n.tex && (b.tex && F(), b = n);var r = 13 * j;p[r++] = i.x, p[r++] = i.y, p[r++] = t.scale.x * n.size.x, p[r++] = t.scale.y * n.size.y, p[r++] = t.rotation, p[r++] = t.position.x, p[r++] = t.position.y, p[r++] = e[0], p[r++] = e[1], p[r++] = e[2], p[r++] = e[3], y[r++] = ((16777215 & t.tint) << 8 | 255 * t.alpha & 255) >>> 0, p[r++] = t.layer.z, j++;
     }
   },
       D = new e(0),
@@ -860,17 +861,17 @@ var t = function t(_t, n, e) {
       })), n;
     }, add: function add(t) {
       D.add(t);
-    }, render: function render() {
-      g = t.clientHeight * o, t.width = d = t.clientWidth * o, t.height = g;var n = L.camera,
-          e = n.at,
-          i = n.to,
-          r = n.angle,
-          a = e.x - d * i.x,
-          s = e.y - g * i.y,
-          c = Math.cos(r),
-          u = Math.sin(r),
-          h = 2 / d,
-          f = -2 / g;y = [c * h, u * f, 0, 0, -u * h, c * f, 0, 0, 0, 0, -1e-5, 0, (e.x * (1 - c) + e.y * u) * h - 2 * a / d - 1, (e.y * (1 - c) - e.x * u) * f + 2 * s / g + 1, 0, 1], w = !0, b = { tex: null }, m = !0, O.forEach(function (t) {
+    }, resize: E, render: function render() {
+      E();var t = L.camera,
+          n = t.at,
+          e = t.to,
+          i = t.angle,
+          r = n.x - g * e.x,
+          a = n.y - d * e.y,
+          o = Math.cos(i),
+          c = Math.sin(i),
+          u = 2 / g,
+          f = -2 / d;x = [o * u, c * f, 0, 0, -c * u, o * f, 0, 0, 0, 0, -1e-5, 0, (n.x * (1 - o) + n.y * c) * u - 2 * r / g - 1, (n.y * (1 - o) - n.x * c) * f + 2 * a / d + 1, 0, 1], s.useProgram(h), s.enable(3042), s.enable(2929), s.uniformMatrix4fv(P, !1, x), s.viewport(0, 0, g, d), s.clear(16640), b = { tex: null }, m = !0, O.forEach(function (t) {
         return t.o.i(function (t) {
           return S(t);
         });
@@ -879,7 +880,7 @@ var t = function t(_t, n, e) {
           return S(t);
         });
       }F();
-    } };return L.render(), L;
+    } };return E(), L;
 };i.Point = function () {
   function t(t, n) {
     if (!(this instanceof i.Point)) return new i.Point(t, n);this.set(t, n);
@@ -902,7 +903,7 @@ var t = function t(_t, n, e) {
   }), s.texImage2D(3553, 0, 6408, 6408, 5121, e);
 }, i.Sprite = function () {
   function t(n, e) {
-    if (!(this instanceof t)) return new t(n, e);this.frame = n, this.a = 1, _extends(this, { visible: !0, position: i.Point(), rotation: 0, anchor: null, scale: i.Point(1), tint: 16777215 }, e), this.remove();
+    if (!(this instanceof t)) return new t(n, e);_extends(this, { frame: n, visible: !0, position: i.Point(), rotation: 0, anchor: null, scale: i.Point(1), tint: 16777215, a: 1 }, e), this.remove();
   }var n = { alpha: { configurable: !0 } };return n.alpha.get = function () {
     return this.a;
   }, n.alpha.set = function (t) {
@@ -1138,11 +1139,256 @@ exports.default = _app2.default;
 
 /***/ }),
 
+/***/ "VCxV":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = undefined;
+
+var _preact = __webpack_require__("KM04");
+
+var _js13k2d = __webpack_require__("GBUi");
+
+var _js13k2d2 = _interopRequireDefault(_js13k2d);
+
+var _style = __webpack_require__("a39o");
+
+var _style2 = _interopRequireDefault(_style);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* eslint-disable new-cap */
+
+
+var Point = _js13k2d2.default.Point,
+    Texture = _js13k2d2.default.Texture,
+    Frame = _js13k2d2.default.Frame,
+    Sprite = _js13k2d2.default.Sprite;
+
+
+var tint = Math.random() * 0xffffff;
+
+var atlasImg = function atlasImg() {
+	var canvas = document.createElement('canvas');
+	var size = 32;
+	var half = size / 2;
+	canvas.width = size;
+	canvas.height = size;
+	var ctx = canvas.getContext('2d');
+
+	var offset = 0;
+
+	ctx.lineWidth = size / 16;
+	ctx.fillStyle = '#cccccc';
+	ctx.strokeStyle = '#000000';
+	ctx.beginPath();
+
+	ctx.moveTo(offset + half, half);
+	for (var angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 5) {
+		ctx.lineTo(offset + half - Math.sin(angle) * half * 0.9, half - Math.cos(angle) * half * 0.9);
+	}
+
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+
+	return canvas;
+};
+
+var Bunny = function (_Sprite) {
+	_inherits(Bunny, _Sprite);
+
+	function Bunny(frame, props) {
+		_classCallCheck(this, Bunny);
+
+		var _this = _possibleConstructorReturn(this, _Sprite.call(this, frame, props));
+
+		_this.gravity = 0.75;
+		_this.speedX = Math.random() * 4;
+		_this.speedY = Math.random() * 4 - 2;
+		return _this;
+	}
+
+	Bunny.prototype.update = function update(bounds) {
+		this.position.x += this.speedX;
+		this.position.y += this.speedY;
+		this.speedY += this.gravity;
+
+		if (this.position.x > bounds.right) {
+			this.speedX *= -1;
+			this.position.x = bounds.right;
+		} else if (this.position.x < bounds.left) {
+			this.speedX *= -1;
+			this.position.x = bounds.left;
+		}
+
+		if (this.position.y > bounds.bottom) {
+			this.speedY *= -0.85;
+			this.position.y = bounds.bottom;
+			if (Math.random() > 0.5) {
+				this.speedY -= Math.random() * 6;
+			}
+		} else if (this.position.y < bounds.top) {
+			this.speedY = 0;
+			this.position.y = bounds.top;
+		}
+	};
+
+	return Bunny;
+}(Sprite);
+
+var _ref = (0, _preact.h)('canvas', { id: 'view' });
+
+var Bunnymark = function (_Component) {
+	_inherits(Bunnymark, _Component);
+
+	function Bunnymark() {
+		var _temp, _this2, _ret;
+
+		_classCallCheck(this, Bunnymark);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this2), _this2.onmousedown = function (event) {
+			_this2.add = true;
+			tint = Math.random() * 0xffffff;
+			event.preventDefault();
+		}, _this2.ontouchstart = function (event) {
+			_this2.add = true;
+			tint = Math.random() * 0xffffff;
+			event.preventDefault();
+		}, _this2.onmouseup = function (event) {
+			_this2.add = false;
+			event.preventDefault();
+		}, _this2.ontouchend = function (event) {
+			_this2.add = false;
+			event.preventDefault();
+		}, _temp), _possibleConstructorReturn(_this2, _ret);
+	}
+
+	Bunnymark.prototype.componentDidMount = function componentDidMount() {
+		var _Texture,
+		    _this3 = this;
+
+		var view = document.getElementById('view');
+
+		this.add = false;
+
+		var scale = window.devicePixelRatio === 1 ? 1 : 2;
+		var scene = (0, _js13k2d2.default)(view, { scale: scale });
+		var gl = scene.gl;
+
+
+		scene.background(1, 1, 1);
+
+		var atlas = Texture(scene, atlasImg(), 0.5, (_Texture = {}, _Texture[gl.TEXTURE_MAG_FILTER] = gl.LINEAR, _Texture[gl.TEXTURE_MIN_FILTER] = gl.LINEAR, _Texture));
+		atlas.anchor = Point(0.5);
+
+		var frames = [Frame(atlas, Point(), Point(32))];
+
+		var len = 0;
+		var cl = 0;
+		var sprs = [];
+
+		var addSprite = function addSprite(a) {
+			if (len % 250 === 0) {
+				cl++;
+			}
+			len += a;
+
+			var layer = scene.layer(cl);
+
+			var width = view.width;
+
+
+			for (var i = 0; i < a; i++) {
+				var sprite = new Bunny(frames[i % frames.length], {
+					position: Point(i % 2 * width, 0),
+					// scale: Point(0.5),
+					tint: tint
+				});
+
+				layer.add(sprite);
+				sprs.push(sprite);
+			}
+		};
+
+		var loop = function loop(delta) {
+			scene.resize();
+
+			if (len < 3000 || _this3.add) addSprite(25);
+
+			var bounds = {
+				left: 0,
+				top: 0,
+				right: view.width,
+				bottom: view.height
+			};
+
+			sprs.forEach(function (sprite) {
+				return sprite.update(bounds);
+			});
+
+			scene.render();
+
+			return [{
+				title: 'sprites',
+				value: len < 10000 ? len : Number((len / 1000).toFixed(1)) + 'k'
+			}];
+		};
+
+		this.props.start(loop);
+	};
+
+	/*
+                <h1>Home</h1>
+                <p>This is the Home component.</p>
+    */
+
+	Bunnymark.prototype.render = function render() {
+		return (0, _preact.h)(
+			'div',
+			{
+				'class': _style2.default.home,
+				onMouseDown: this.onmousedown,
+				onTouchStart: this.ontouchstart,
+				onMouseUp: this.onmouseup,
+				onTouchEnd: this.ontouchend
+			},
+			'Click or touch to add sprites',
+			_ref
+		);
+	};
+
+	return Bunnymark;
+}(_preact.Component);
+
+exports.default = Bunnymark;
+
+/***/ }),
+
 /***/ "ZAL5":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 module.exports = {"home":"home__2Q5nZ"};
+
+/***/ }),
+
+/***/ "a39o":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+module.exports = {"home":"home__lijWV"};
 
 /***/ }),
 
@@ -1166,6 +1412,10 @@ var _header2 = _interopRequireDefault(_header);
 var _home = __webpack_require__("E1C8");
 
 var _home2 = _interopRequireDefault(_home);
+
+var _bunnymark = __webpack_require__("VCxV");
+
+var _bunnymark2 = _interopRequireDefault(_bunnymark);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1236,6 +1486,7 @@ var App = function (_Component) {
 			ms: 0,
 			stats: null
 		}, _this.handleRoute = function (e) {
+			// console.log('route:', e.url);
 			_this.currentUrl = e.url;
 			_this.setState({
 				loop: null,
@@ -1245,59 +1496,28 @@ var App = function (_Component) {
 			});
 		}, _this.start = function (loop) {
 			_this.setState({ loop: loop });
-			_this.loop();
 		}, _this.loop = function () {
 			if (_this.state.loop) {
-				_this.begin();
-				var stats = _this.state.loop();
-				_this.setState({ stats: stats });
-				_this.end();
-				requestAnimationFrame(_this.loop);
+				var begin = getTime();
+				var delta = begin - _this.prevBegin || begin;
+
+				var stats = _this.state.loop(delta);
+
+				var k = 0.05;
+				var ms = (1 - k) * _this.state.ms + k * (getTime() - begin);
+				var fps = (1 - k) * _this.state.fps + k * (1000 / delta);
+				_this.setState({ fps: fps, ms: ms, stats: stats });
+
+				_this.prevBegin = begin;
 			}
+
+			requestAnimationFrame(_this.loop);
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
-	App.prototype.begin = function begin() {
-		this.beginTime = getTime();
-	};
-
-	App.prototype.end = function end() {
-		this.frames++;
-
-		var now = getTime();
-		var passed = now - this.prevTime;
-
-		if (passed >= 1000) {
-			var ms = now - this.beginTime;
-			var fps = this.frames * 1000 / passed;
-			this.setState({ fps: fps, ms: ms });
-
-			this.prevTime = now;
-			this.frames = 0;
-		}
-
-		/*
-  if (now - this.prevTime >= 1000) {
-  	const ms = now - this.beginTime;
-  	const fps = (this.frames * 1000) / (now - this.prevTime);
-  	this.setState({ fps, ms });
-  		this.prevTime = now;
-  	this.frames = 0;
-  }
-  */
-	};
-
 	App.prototype.componentDidMount = function componentDidMount() {
-		this.beginTime = getTime();
-		this.prevTime = this.beginTime;
-		this.frames = 0;
+		this.loop();
 	};
-
-	/*
- 				<Home path={PUBLIC_PATH} start={this.start} />
-     				<Profile path="/profile/" user="me" />
-    				<Profile path="/profile/:user" />
- */
 
 	App.prototype.render = function render() {
 		var _state = this.state,
@@ -1313,7 +1533,11 @@ var App = function (_Component) {
 			(0, _preact.h)(
 				_preactRouter.Router,
 				{ onChange: this.handleRoute },
-				(0, _preact.h)(_home2.default, { path: "/js13k-2d/", start: this.start })
+				(0, _preact.h)(_home2.default, { path: "/js13k-2d/", start: this.start }),
+				(0, _preact.h)(_bunnymark2.default, {
+					path: "/js13k-2d/" + 'bunnymark',
+					start: this.start
+				})
 			),
 			loop && (0, _preact.h)(Footer, { fps: fps, ms: ms, stats: stats })
 		);
@@ -1387,31 +1611,13 @@ class Stars extends Component {
 
 */
 
-/*
-            <Link activeClassName={style.active} href="/">
-                Home
-            </Link>
-            <Link activeClassName={style.active} href="/example/1">
-                example1
-            </Link>
-            <Link activeClassName={style.active} href="/example/2">
-                example2
-            </Link>
-*/
-
 // <img class={style.logo} src="assets/logo.png" />
-/*
-            <Link
-                native
-                activeClassName={style.active}
-                href="//github.com/kutuluk/js13k-2d"
-            >
-*/
 var _ref = (0, _preact.h)(
     'h1',
     null,
     'js13k-2d'
-);
+); /* global PUBLIC_PATH */
+
 
 var _ref2 = (0, _preact.h)(
     'h5',
@@ -1420,13 +1626,9 @@ var _ref2 = (0, _preact.h)(
 );
 
 var _ref3 = (0, _preact.h)(
-    'nav',
-    null,
-    (0, _preact.h)(
-        'a',
-        { href: '//github.com/kutuluk/js13k-2d' },
-        (0, _preact.h)('img', { whidth: '32', height: '32', src: 'assets/github.png' })
-    )
+    'a',
+    { href: '//github.com/kutuluk/js13k-2d' },
+    (0, _preact.h)('img', { whidth: '32', height: '32', src: 'assets/github.png' })
 );
 
 var Header = function Header() {
@@ -1439,7 +1641,24 @@ var Header = function Header() {
             _ref,
             _ref2
         ),
-        _ref3
+        (0, _preact.h)(
+            'nav',
+            null,
+            (0, _preact.h)(
+                _match.Link,
+                { activeClassName: _style2.default.active, href: '' + "/js13k-2d/" },
+                'Home'
+            ),
+            (0, _preact.h)(
+                _match.Link,
+                {
+                    activeClassName: _style2.default.active,
+                    href: "/js13k-2d/" + 'bunnymark'
+                },
+                'Bunnymark'
+            ),
+            _ref3
+        )
     );
 };
 
